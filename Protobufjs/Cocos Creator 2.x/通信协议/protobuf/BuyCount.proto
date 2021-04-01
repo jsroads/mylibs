@@ -1,0 +1,6 @@
+syntax = "proto3";
+package mykj;
+message BuyCount{
+  uint32 monsterId = 1;
+  uint32 count = 2;
+}

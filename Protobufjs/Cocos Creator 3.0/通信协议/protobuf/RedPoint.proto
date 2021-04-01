@@ -1,0 +1,10 @@
+syntax = "proto3";
+package mykj;
+message RedPointList{
+   repeated RedPoint RedPoint = 1;
+}
+
+message RedPoint{
+  int32 key = 1;
+  bool value = 2;
+}

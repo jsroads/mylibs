@@ -1,0 +1,233 @@
+syntax = "proto3";
+package mykj;
+import "BuyCount.proto";
+// 精简化参数，需要的分段获取，减少单次数据大小
+message GameInfo{
+  User user = 1;
+  repeated Monster monster = 2;
+  repeated BuyCount buyCountList = 3;
+  TimeStamp speedTime = 4;// 加速时间
+  uint32 speedLevel = 5;// 加速等级
+}
+
+message Eggs {
+  repeated Egg eggs = 1;
+}
+
+message Egg {
+  uint32 id = 1;
+  uint32 monsterId = 2;
+  TimeStamp timeStamp = 3;// 蛋可开启时间，当蛋开启时间为 0 时，代表免费异兽蛋
+  bool opened = 4; // 是否被开启 0 未开 1 已开启
+  uint32 userId = 5;// 采补人 id，根据是否是自己来算等级
+  int32 level = 6;// 采补人采补时的等级
+}
+
+// 采补列表
+message CaibuList {
+  repeated Caibu caibus = 1;
+}
+// 采补信息
+message Caibu{
+  string nickname = 1;
+  string avatarUrl = 2;
+  uint32 userId = 3;//用户id
+  int32 level = 4;//等级
+  bool isFriend  = 5;//是否好友，true 是 false 非好友
+  Egg egg = 6;// 如果有则不能进家里
+}
+
+// 复仇列表
+message Revenges {
+  repeated Revenge revenges = 1;
+}
+message Revenge{
+  string nickname = 1;
+  string avatarUrl = 2;
+  uint32 userId = 3;//用户id
+  uint32 monsterId = 4;// 模板id
+  TimeStamp timeStamp = 5; // 采补时间
+  int32 id = 6; // 复仇 id
+}
+
+message Monster{
+  uint32 id = 1;// 每个已购买怪的唯一 id
+  uint32 monsterId = 2;// 每个怪在配置表中的 id
+  TimeStamp timeStamp = 3;// 神仙采补冷却时间戳
+}
+
+message BNumber{
+  uint32 mainValue = 1;//数字精度表示长度为10
+  int32 base = 2;//10的N次方
+}
+
+message User{
+  string nickname = 1;
+  string avatarUrl = 2;
+  int32 userId = 3;
+  int32  level = 4;
+  int32  gold = 5;
+  int32 leaguePoint = 6;
+  BNumber coin = 7;
+}
+// 合成后返回
+message MergeMonster{
+  Monster monster = 1;
+  MonsterOrder monsterOrder = 2;
+  Int32Values maxLevel = 3;
+}
+
+message Friends {
+  repeated Friend friends = 1;
+}
+message Friend{
+  string nickname = 1;
+  string avatarUrl = 2;
+  uint32 userId = 3;//用户id
+  int32 level = 4;//等级
+  BNumber score = 5;//金币数
+  int32 status = 6;//状态
+}
+
+//升级或者异变 生成事件
+message MonsterOrder{
+  string id = 1;
+  int32 type = 2;
+  int32 gold = 3;
+  int32 level = 4;
+  repeated Monster monster = 5;
+}
+
+//时间戳
+message TimeStamp{
+  uint32 value = 1;
+}
+//提现订单
+message CashOrder{
+  int32 id = 1;
+  int32 num = 2;
+  int32 status = 3;
+  int32 timeStamp = 4;
+}
+
+//提现订单列表
+message CashOrderList{
+  repeated CashOrder list = 1;
+}
+
+//道府玩家数据结构，师傅，徒弟
+message Player{
+  string nickname = 1;
+  string avatarUrl = 2;
+  uint32 userId = 3;//用户id
+  int32 level = 4;//等级
+  repeated int32 paramsInt = 6;//数字类型扩展参数
+  repeated int32 paramsStr = 7;//字符串类型扩展参数
+}
+
+//通用玩家数据列表
+message Players{
+  repeated Player players =1;
+}
+
+//道府数据
+message Pyramid{
+  int32 level = 1;   //道府等级
+  int32 league = 2;  //贡献
+  int32 optTimes = 3;  //异变次数
+  int32 buffTime = 4;  //贡献翻倍buff剩余时间 
+  Player master = 5;   //师傅
+
+  repeated Player followers =6; //徒弟列表
+}
+
+message ErrorCode{
+  int32 code = 1;
+  string msg = 2;
+}
+
+message FloatValues{
+  repeated float values = 1;
+}
+
+message DoubleValues{
+  repeated double values = 1;
+}
+
+message StringValue{
+  repeated string values = 1;
+}
+
+message BoolValues{
+  repeated bool values = 1;
+}
+
+message Int32Values{
+  repeated int32 values = 1;
+}
+message Uint32Values{
+  repeated uint32 values = 1;
+}
+
+message BytesValues{
+  repeated bytes values = 1;
+}
+//离线奖励
+message OfflineReward{
+    int32  time = 1;//离线时长(秒)
+    BNumber count = 2;//奖励
+}
+
+message Rewards{
+  repeated Reward rewards = 1;
+}
+message Reward{
+  int32 type = 1;
+  BNumber count = 2;
+}
+
+message Speed{
+  int32 count = 1;//剩余次数
+  int32 cd = 2;//下次免费刷新时间戳
+}
+
+message Ad {
+  int32 type = 1;// 广告类型 0无广告 1视频 2分享
+}
+
+// 祭祀
+message ChangeInfo {
+  int32 luck = 1;// 当前幸运值
+  repeated Monster  monsters = 2;// 当前异变怪物列表
+  TimeStamp freeCDTime = 3;// 免费次数恢复事件
+  int32 adCount = 4;// 今日广告异变总次数
+  int32 count = 5;// 今日剩余祭祀次数
+}
+
+// 祭祀请求
+message MonsterChangeInfo {
+  repeated MonsterChange monsterInfo = 1;
+}
+message MonsterChange {
+  int32 id = 1;// 异变前怪的 id
+  int32 type = 2; // 1 分裂，2 升级
+  repeated Monster monsters = 3; //异变生成的怪物
+  MonsterOrder monsterOrder = 4;// 意外升级事件
+}
+
+// 幸运值
+message LuckInfo {
+  bool sign = 1;
+  CountData video = 2;
+  CountData share = 3;
+}
+
+message CountData{
+  int32 now = 1;// 当前次数
+  int32 max = 2;// 最大次数
+}
+
+// 红包信息
+message RedPacketInfo{
+  repeated MonsterOrder redPackets = 1;
+}
