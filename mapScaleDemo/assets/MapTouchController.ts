@@ -74,23 +74,21 @@ export class MapTouchController extends Component {
     public isStrict: boolean = false; // 默认为非严格模式
 
     protected onLoad(): void {
-        console.clear();
-    }
 
+    }
     protected start() {
         this.addEvent();
-        this.defaultScaling = 1
+        // this.defaultScaling = 1
         this.smoothOperate(this.map, v3(0, 0, 0), this.defaultScaling);
-        // this.map.setPosition(-150, -150);
+        this.map.setPosition(0, 0);
     }
 
     // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
     private canStartMove(touch: any): boolean {
-        let startPos: any = touch.getStartLocation();
-        let nowPos: any = touch.getLocation();
+        let startPos: any = touch.getPreviousLocation();
+        let nowPos: any = touch.getUILocation();
         // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
-        return (Math.abs(nowPos.x - startPos.x) > this.moveOffset
-            || Math.abs(nowPos.y - startPos.y) > this.moveOffset);
+        return Math.abs(nowPos.x - startPos.x) > this.moveOffset || Math.abs(nowPos.y - startPos.y) > this.moveOffset;
     }
 
     private addEvent(): void {
@@ -145,16 +143,19 @@ export class MapTouchController extends Component {
             } else if (touches.length === 1) {
                 // console.log('single touch');
                 // single touch
-                if (this.isMoving || this.canStartMove(touches[0])) {
+                let touch: Touch = touches[0];
+                if (this.isMoving || this.canStartMove(touch)) {
                     this.isMoving = true;
-                    let dir: Vec3 = v3(touches[0].getDelta().x,touches[0].getDelta().y);
+                    let dir: Vec3 = v3(touch.getUIDelta().x,touch.getUIDelta().y);
                     this.dealMove(dir, this.map, this.node);
                 }else {
                     console.log("不能移动")
                 }
+            }else {
+                console.log("未知触摸类型")
             }
+            event.propagationStopped = true;
         }, this);
-
         this.node.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             if (this.locked) return;
 
@@ -168,8 +169,8 @@ export class MapTouchController extends Component {
                 }
                 this.isMoving = false; // 当容器中仅剩最后一个触摸点时将移动flag还原
             }
-            if (this.isStrict)
-                this.removeTouchFromContent(event, this.mapTouchList);
+            if (this.isStrict) this.removeTouchFromContent(event, this.mapTouchList);
+            event.propagationStopped = true;
         }, this);
 
         this.node.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
@@ -181,6 +182,7 @@ export class MapTouchController extends Component {
 
             if (this.isStrict)
                 this.removeTouchFromContent(event, this.mapTouchList);
+            event.propagationStopped = true;
         }, this);
 
         this.node.on(Node.EventType.MOUSE_WHEEL, (event: EventMouse) => {
@@ -193,6 +195,7 @@ export class MapTouchController extends Component {
             let pos: Vec3 = transform.convertToNodeSpaceAR(v3(event.getUILocation().x, event.getUILocation().y));
             // pos = v3(50,50)
             this.smoothOperate(target, pos, scale);
+            event.propagationStopped = true;
         }, this);
     }
 
@@ -212,12 +215,9 @@ export class MapTouchController extends Component {
             // let deltaScale: number = scale - target.getScale().x;
             let uiScaleVec3: Vec3 = v3(target.getScale().x, target.getScale().y, 1)
             let uiTouchPos: Vec3 = (pos.clone().subtract(target.position.clone())).divide(uiScaleVec3);
-            // console.log(`uiTouchPos:${uiTouchPos}`);
-            // deltaScale = Number(deltaScale.toFixed(2));
-            // console.log(`scale:${scale}---target.getPosition${target.getPosition()}`);
             let mapPos: Vec3 = pos.clone().subtract(uiTouchPos.multiplyScalar(scale));
-            // console.log(`scale:${scale}--pos:${pos}--mapPos:${mapPos}`);
-            target.setScale(v3(scale, scale, 0));
+            //UI setScale z 必须为非0
+            target.setScale(v3(scale, scale, 1));
             this.dealScalePos(v3(mapPos.x,mapPos.y), target);
         } else {
             console.log("smile----:", JSON.stringify("特殊情况"));
@@ -251,8 +251,7 @@ export class MapTouchController extends Component {
     private dealMove(dir: Vec3, map: Node, container: Node): void {
         let worldPos: Vec3 = (<UITransform>map.getComponent(UITransform)).convertToWorldSpaceAR(v3(Vec3.ZERO));
         let nodePos: Vec3 = (<UITransform>container.getComponent(UITransform)).convertToNodeSpaceAR(worldPos);
-        nodePos.x += dir.x;
-        nodePos.y += dir.y;
+        nodePos.add(dir);
         let edge: any = this.calculateEdge(map, container, nodePos);
         if (edge.left <= 0 && edge.right <= 0) {
             map.setPosition(map.position.x + dir.x, map.position.y);
