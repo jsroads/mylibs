@@ -1,7 +1,6 @@
 import {
     _decorator,
     CCBoolean,
-    CCFloat,
     Component,
     EventMouse,
     EventTouch,
@@ -24,12 +23,9 @@ import {
  * Note:
  */
 const {ccclass, property} = _decorator;
-const _tempVec3 = new Vec3();
-const EPSILON = 1e-4;
-const TOLERANCE = 1e4;
-
-@ccclass('MapTouchController')
-export class MapTouchController extends Component {
+const NUMBER_OF_GATHERED_TOUCHES_FOR_MOVE_SPEED = 5;//统计最大移动次数个数
+@ccclass('MapTouchBetterController')
+export class MapTouchBetterController extends Component {
     @property({
         type: Node,
         tooltip: '目标节点'
@@ -80,7 +76,42 @@ export class MapTouchController extends Component {
     @property(CCBoolean)
     public isStrict: boolean = false; // 默认为非严格模式
 
-    private deltaVec3 = new Vec3(0, 0, 0);//临时记录位置
+    private deltaVec2 = new Vec2(0, 0);
+
+    @property({
+        tooltip: "是否开启滚动惯性"
+    })
+    public inertia: boolean = true; // 是否开启滚动惯性
+    @property({
+        tooltip: "惯性系数，范围 0~1, 1表示立刻停止 ",
+        min: 0.01,
+        max: 1,
+        step: 0.01,
+        range: [0.01, 1],
+        slide: true,
+        visible: function (this: MapTouchBetterController) {
+            return this.inertia;
+        }
+    })
+    public brake: number = 0.5; //惯性系数
+    @property({
+        tooltip: "阻尼系数，摩擦力 范围大于 0 ",
+        min: 0.01,
+        max: 10,
+        step: 0.01,
+        visible: function (this: MapTouchBetterController) {
+            return this.inertia;
+        }
+    })
+    public friction: number = 0.85; //阻尼系数，摩擦力
+
+    protected touchMoveDisplacements: Vec3[] = [];//统计位置数组
+    protected touchMoveTimeDeltas: number[] = [];//统计时间数组
+    protected touchMovePreviousTimestamp = 0;//前一次事件时间戳
+    protected autoScrolling: boolean = false;//是否在惯性移动中
+    protected speed: Vec3 = new Vec3();//当前速度
+    protected targetPos: Vec3 = new Vec3();//目标移动位置
+
     protected onLoad(): void {
 
     }
@@ -94,14 +125,17 @@ export class MapTouchController extends Component {
 
     // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
     private canStartMove(touch: Touch): boolean {
-        let startPos: any = this.deltaVec3;
-        let nowPos: any = touch.getLocation();
+        let startPos: Vec2 = this.deltaVec2;
+        let nowPos: Vec2 = touch.getLocation();
         // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
         // console.log("smile----nowPosX:" + JSON.stringify(nowPos.x - startPos.x));
         // console.log("smile----nowPosY:" + JSON.stringify(nowPos.y - startPos.y));
         return Math.abs(nowPos.x - startPos.x) > this.moveOffset || Math.abs(nowPos.y - startPos.y) > this.moveOffset;
-        // const delta = touch.getDelta();
-        // return Math.abs(delta.x) > this.moveOffset || Math.abs(delta.y) > this.moveOffset;
+    }
+
+    // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
+    private moveDistance(touch: Touch): Vec2 {
+        return v2(touch.getLocation().x - this.deltaVec2.x, touch.getLocation().y - this.deltaVec2.y);
     }
 
     private addEvent(): void {
@@ -156,13 +190,17 @@ export class MapTouchController extends Component {
             } else if (touches.length === 1) {
                 // console.log('single touch');
                 // single touch
-                let touch: Touch = touches[0];
+                const touch: Touch = touches[0];
                 if (this.isMoving || this.canStartMove(touch)) {
                     this.isMoving = true;
-                    let dir: Vec3 = v3(touch.getLocation().x - this.deltaVec3.x, touch.getLocation().y - this.deltaVec3.y);
-                    this.deltaVec3 = v3(event.getLocation().x, event.getLocation().y);
+                    const distance: Vec2 = this.moveDistance(touch);
+                    let dir: Vec3 = v3(distance.x, distance.y);
+                    this.deltaVec2 = touch.getLocation().clone();
                     this.dealMove(dir, this.map, this.node);
                 } else {
+                    // const distance: Vec2 = this.moveDistance(touch);
+                    // console.log("smile----this.isMoving:" + JSON.stringify(this.isMoving));
+                    // console.log("smile----distance:" + JSON.stringify(distance));
                     console.log("不能移动")
                 }
             } else {
@@ -172,12 +210,13 @@ export class MapTouchController extends Component {
         }, this);
         this.node.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             if (this.locked) return;
-            this.deltaVec3 = v3(event.getLocation().x, event.getLocation().y);
+            this.handleReleaseLogic();
+            this.deltaVec2 = event.getLocation().clone();
             event.propagationStopped = true;
         }, this);
+
         this.node.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             if (this.locked) return;
-
             let touches: any[] = this.isStrict ? this.mapTouchList : event.getTouches();
             if (touches.length <= 1) {
                 if (!this.isMoving) {
@@ -187,6 +226,7 @@ export class MapTouchController extends Component {
                     this.dealSelect(nodePos);
                 }
                 this.isMoving = false; // 当容器中仅剩最后一个触摸点时将移动flag还原
+                this.processInertiaScroll();
             }
             if (this.isStrict) this.removeTouchFromContent(event, this.mapTouchList);
             event.propagationStopped = true;
@@ -198,7 +238,7 @@ export class MapTouchController extends Component {
             let touches: any[] = this.isStrict ? this.mapTouchList : event.getTouches();
             // 当容器中仅剩最后一个触摸点时将移动flag还原
             if (touches.length <= 1) this.isMoving = false;
-
+            this.handleReleaseLogic();
             if (this.isStrict)
                 this.removeTouchFromContent(event, this.mapTouchList);
             event.propagationStopped = true;
@@ -267,22 +307,49 @@ export class MapTouchController extends Component {
         target.setPosition(v3(pos.x, pos.y, 0));
     }
 
+    protected handleReleaseLogic() {
+        if (!this.inertia) return;
+        this.touchMovePreviousTimestamp = Date.now();
+        this.touchMoveDisplacements.length = 0;
+        this.touchMoveTimeDeltas.length = 0;
+        this.autoScrolling = false;
+    }
+
     private dealMove(dir: Vec3, map: Node, container: Node): void {
+        const clampDt = dir.clone();
         let worldPos: Vec3 = (<UITransform>map.getComponent(UITransform)).convertToWorldSpaceAR(v3(Vec3.ZERO));
         let nodePos: Vec3 = (<UITransform>container.getComponent(UITransform)).convertToNodeSpaceAR(worldPos);
         nodePos.add(dir);
-        let edge: any = this.calculateEdge(map, container, nodePos);
+        let edge: any = this.calculateEdge(map, container, nodePos), targetPos: Vec3 = map.position.clone();
         if (edge.left <= 0 && edge.right <= 0) {
-            map.setPosition(map.position.x + dir.x, map.position.y);
+            targetPos.x += dir.x;
+        } else {
+            clampDt.x = 0;
         }
         if (edge.top <= 0 && edge.bottom <= 0) {
-            map.setPosition(map.position.x, map.position.y + dir.y)
+            targetPos.y += dir.y;
+        } else {
+            clampDt.y = 0;
         }
+
+        this.gatherTouchMove(clampDt);
+        // this.targetPos = this.targetPos.lerp(this.targetPos,0.016 * 2.0);
+        map.setPosition(targetPos.x, targetPos.y, targetPos.z)
+    }
+
+    protected gatherTouchMove(clampDt: Vec3) {
+        while (this.touchMoveDisplacements.length >= NUMBER_OF_GATHERED_TOUCHES_FOR_MOVE_SPEED) {
+            this.touchMoveDisplacements.shift();
+            this.touchMoveTimeDeltas.shift();
+        }
+        this.touchMoveDisplacements.push(clampDt);
+        const timeStamp = Date.now();
+        this.touchMoveTimeDeltas.push((timeStamp - this.touchMovePreviousTimestamp) / 1000);
+        this.touchMovePreviousTimestamp = timeStamp;
     }
 
     private dealSelect(nodePos: Vec3): void {
         console.log(`click map on (${nodePos.x}, ${nodePos.y})`);
-        // do sth
         if (this.singleTouchCb) this.singleTouchCb(nodePos);
     }
 
@@ -292,7 +359,7 @@ export class MapTouchController extends Component {
 
         let containerTransform: UITransform = <UITransform>container.getComponent(UITransform);
         let targetTransform: UITransform = <UITransform>target.getComponent(UITransform);
-        let targetScale = target.scale
+        let targetScale: Vec3 = target.scale;
 
         let horizontalDistance: number = (containerTransform.width - targetTransform.width * targetScale.x) / 2;
         let verticalDistance: number = (containerTransform.height - targetTransform.height * targetScale.y) / 2;
@@ -303,6 +370,57 @@ export class MapTouchController extends Component {
         let bottom: number = verticalDistance + nodePos.y;
 
         return {left, right, top, bottom};
+    }
+
+    protected processInertiaScroll() {
+        if (this.inertia) {
+            this.speed = this.calculateTouchMoveVelocity();
+            if (Math.abs(this.speed.x) > 0 || Math.abs(this.speed.y) > 0) {
+                this.autoScrolling = true;
+                return;
+            }
+        }
+    }
+
+    protected calculateTouchMoveVelocity(): Vec3 {
+        let totalTime = 0;
+        totalTime = this.touchMoveTimeDeltas.reduce((a, b) => a + b, totalTime);
+        if (totalTime <= 0 || totalTime > 0.75) {
+            return new Vec3();
+        }
+        let totalMovement = new Vec3();
+        totalMovement = this.touchMoveDisplacements.reduce((a, b) => {
+            a.add(b);
+            return a;
+        }, totalMovement);
+        let result = new Vec3(totalMovement.x * (1 - this.brake) / (totalTime * 16),
+            totalMovement.y * (1 - this.brake) / (totalTime * 16), 0);
+        console.log("smile----result:" + JSON.stringify(result));
+        return result;
+    }
+
+    protected update(dt: number) {
+        if (!this.inertia) return;
+        if (!this.autoScrolling) return;
+        this.speed.multiplyScalar(this.friction);
+        if (Math.abs(this.speed.x) < 1 && Math.abs(this.speed.y) < 1) {
+            this.autoScrolling = false;
+            return;
+        }
+        this.targetPos.add(this.speed);
+        let worldPos: Vec3 = (<UITransform>this.map.getComponent(UITransform)).convertToWorldSpaceAR(v3(Vec3.ZERO)).clone();
+        let nodePos: Vec3 = (<UITransform>this.node.getComponent(UITransform)).convertToNodeSpaceAR(worldPos).clone();
+        nodePos.add(this.speed);
+        let edge: any = this.calculateEdge(this.map, this.node, nodePos), targetPos: Vec3 = this.map.position.clone();
+        if (edge.left <= 0 && edge.right <= 0) {
+            this.map.setPosition(this.map.position.x + this.speed.x, this.map.position.y);
+            targetPos.x += this.speed.x;
+        }
+        if (edge.top <= 0 && edge.bottom <= 0) {
+            targetPos.y += this.speed.y;
+        }
+        // this.targetPos = this.targetPos.lerp(this.targetPos,dt * 2.0);
+        this.map.setPosition(targetPos.x, targetPos.y, targetPos.z);
     }
 
     /**
@@ -317,5 +435,6 @@ export class MapTouchController extends Component {
     public getStrictPattern(): boolean {
         return this.isStrict;
     }
+
 
 }
