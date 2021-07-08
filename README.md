@@ -3,13 +3,17 @@
 
 ```shell
 mylibs
-├── .DS_Store
-├── .git
+├── CountUp
 ├── Protobufjs
 ├── README.md
+├── TweenMax
+├── axios
+├── bson
+├── lodash
 ├── mapScaleDemo
-└── puremvc
+├── puremvc
+└── underscore
 
-directory: 4 file: 2
+directory: 9 file: 1
 ```
 
