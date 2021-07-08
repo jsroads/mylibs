@@ -11,9 +11,10 @@ mylibs
 ├── bson
 ├── lodash
 ├── mapScaleDemo
+├── md5&xxtea
 ├── puremvc
 └── underscore
 
-directory: 9 file: 1
+directory: 10 file: 1
 ```
 
