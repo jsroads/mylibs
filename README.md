@@ -4,9 +4,12 @@
 ```shell
 mylibs
 ├── CountUp
+├── GitLogParsePlus
 ├── Protobufjs
 ├── README.md
+├── ScrollBarExtra
 ├── TweenMax
+├── androiddemo
 ├── axios
 ├── bson
 ├── lodash
@@ -15,6 +18,7 @@ mylibs
 ├── puremvc
 └── underscore
 
-directory: 10 file: 1
+directory: 13 file: 1
+
 ```
 
