@@ -1,0 +1,8 @@
+{
+    "ndk_module_path" :[
+        "/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x",
+        "/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x/cocos",
+        "/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x/external"
+    ],
+    "copy_resources": []
+}

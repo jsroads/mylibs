@@ -1,0 +1,7 @@
+{
+  "engine_version": "2.4.7",
+  "has_native": true,
+  "project_type": "js",
+  "projectName": "hello_world",
+  "packageName": "org.cocos2d.demo"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 16 min SDK version: armeabi-v7a",
+    "file": "/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON \u0027/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/.cxx/ndkBuild/debug/armeabi-v7a/android_gradle_build.json\u0027 was up-to-date",
+    "file": "/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed without problems",
+    "file": "/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  }
+]

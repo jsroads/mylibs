@@ -1,0 +1,64 @@
+// ---------  version -------------------------------------------------
+updateVersion()
+
+def updateVersion() {
+    def propertiesFile = file("build.properties")
+    Properties properties = readProperties(propertiesFile)
+
+    def versionCode = properties["version_code"].toString().toInteger()
+    def versionName = properties["version_name"].toString().toInteger()
+    def appName = properties["app_name"].toString()
+
+    if (isReleaseTask(appName)) {
+        System.out.println(">>> Building Release...")
+        versionCode++
+        versionName++
+        properties["version_code"] = versionCode.toString()
+        properties["version_name"] = versionName.toString()
+        writeProperties(propertiesFile, properties)
+    }
+
+    android.defaultConfig.versionCode = versionCode
+    android.defaultConfig.versionName = versionName + getDateTime()
+
+    System.out.println(">>> " + project.parent.name + "   versionName:" + android.defaultConfig.versionName)
+
+}
+
+
+def isReleaseTask(appName) {
+    def tasks = gradle.getStartParameter().getTaskNames()
+    return ":app:assembleRelease" in tasks ||
+            "ass" in tasks ||
+            "assemble" in tasks ||
+            "assembleRelease" in tasks ||
+            ":app:bundleRelease" in tasks ||
+            "bundleRelease" in tasks||
+            ":"+appName+":assembleRelease" in tasks
+}
+
+static Properties readProperties(propertiesFile) {
+    if (propertiesFile.canRead()) {
+        Properties properties = new Properties()
+        def inputStream = new FileInputStream(propertiesFile)
+        properties.load(inputStream)
+        inputStream.close()
+        return properties
+    } else {
+        def message = ">>> Could not read " + propertiesFile.name + " file!"
+        System.err.println(message)
+        throw new GradleException(message)
+    }
+}
+
+def static writeProperties(propertiesFile, properties) {
+    def writer = propertiesFile.newWriter()
+    properties.store(writer, "Build Properties")
+    writer.close()
+}
+
+def getDateTime(){
+    return new Date().format(".YYYYMMddHH", TimeZone.getTimeZone("GMT+08:00"))
+}
+
+// ---------  version -------------------------------------------------

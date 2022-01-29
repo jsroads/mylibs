@@ -1,0 +1,1 @@
+/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/instantapp/build/intermediates/ndkBuild/release/obj/local/armeabi-v7a

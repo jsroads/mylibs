@@ -1,0 +1,2 @@
+Android NDK: WARNING: Unsupported source file extensions in /Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x/cocos/Android.mk for module cocos2dx_static    
+Android NDK:   ../external/sources/edtaa3func/edtaa3func.h renderer/memop/RecyclePool.hpp    

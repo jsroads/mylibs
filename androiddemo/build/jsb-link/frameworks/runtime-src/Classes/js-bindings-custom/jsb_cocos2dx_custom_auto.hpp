@@ -1,0 +1,43 @@
+#pragma once
+#include "base/ccConfig.h"
+
+#include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
+
+extern se::Object* __jsb_DeviceModel_proto;
+extern se::Class* __jsb_DeviceModel_class;
+
+bool js_register_DeviceModel(se::Object* obj);
+bool register_all_cocos2dx_custom(se::Object* obj);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_cheackPath);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceIDFA);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceIdentifier);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_setStringToPasteBoard);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceIP);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getApkPath);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getPackageName);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getGameUsedMemory);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getSystemVersion);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getObbPath);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceTotalMemory);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getWritablePath2);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceId);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceCPU);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceAvailMemory);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceWifiName);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceTotalInternalStorageSize);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceAvailInternalStorageSize);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_makePackageName);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getAppName);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getDeviceModel);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getInstance);
+SE_DECLARE_FUNC(js_cocos2dx_custom_DeviceModel_getAppSignature);
+
+extern se::Object* __jsb_UnZipUtils_proto;
+extern se::Class* __jsb_UnZipUtils_class;
+
+bool js_register_UnZipUtils(se::Object* obj);
+bool register_all_cocos2dx_custom(se::Object* obj);
+SE_DECLARE_FUNC(js_cocos2dx_custom_UnZipUtils_setOnUnZipProgress);
+SE_DECLARE_FUNC(js_cocos2dx_custom_UnZipUtils_unZipFile);
+SE_DECLARE_FUNC(js_cocos2dx_custom_UnZipUtils_UnZipUtils);
+

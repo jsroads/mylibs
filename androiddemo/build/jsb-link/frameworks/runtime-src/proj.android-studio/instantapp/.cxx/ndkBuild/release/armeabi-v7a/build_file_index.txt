@@ -1,0 +1,2 @@
+/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/instantapp/jni/Android.mk
+/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/instantapp/jni/Application.mk

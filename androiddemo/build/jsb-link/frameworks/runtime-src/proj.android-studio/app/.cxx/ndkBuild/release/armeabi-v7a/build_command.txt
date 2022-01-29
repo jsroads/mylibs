@@ -1,0 +1,24 @@
+                    Executable : /Users/smile/Library/Android/sdk/ndk/21.4.7075529/ndk-build
+arguments : 
+NDK_PROJECT_PATH=null
+APP_BUILD_SCRIPT=/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/jni/Android.mk
+NDK_APPLICATION_MK=/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/jni/Application.mk
+APP_ABI=armeabi-v7a
+NDK_ALL_ABIS=armeabi-v7a
+NDK_DEBUG=0
+APP_PLATFORM=android-16
+NDK_OUT=/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/build/intermediates/ndkBuild/release/obj
+NDK_LIBS_OUT=/Users/smile/work/temp/CocosCreator/androiddemo/build/jsb-link/frameworks/runtime-src/proj.android-studio/app/build/intermediates/ndkBuild/release/lib
+NDK_TOOLCHAIN_VERSION=clang
+NDK_MODULE_PATH=/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x:/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x/cocos:/Users/smile/work/wendang/jj_project/code/CocosCreator/2.4.7/cocos2d-x/external
+-j8
+NDK_DEBUG=0
+APP_SHORT_COMMANDS=false
+LOCAL_SHORT_COMMANDS=false
+-B
+-n
+jvmArgs : 
+
+
+                    Build command args: []
+                    Version: 1

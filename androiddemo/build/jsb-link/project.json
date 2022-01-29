@@ -1,0 +1,12 @@
+{
+    "version": "1.0.0",
+    "res_version": 1,
+    "config_version": 0,
+    "sdk": "muyou",
+    "channel": "muyou_test",
+    "channelid": 1,
+    "login_address": "https://jj.net.test.52muyou.com:8199",
+    "isupdate": false,
+    "test_login": true,
+    "review": 1
+}

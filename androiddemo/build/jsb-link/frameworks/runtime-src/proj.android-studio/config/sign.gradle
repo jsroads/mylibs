@@ -1,0 +1,16 @@
+def signingConfigFile='config/sign.properties'
+Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file(signingConfigFile).newDataInputStream())
+
+def keyAliasStr = localProperties.getProperty("signing.keyAlias",null)
+def keyPasswordStr = localProperties.getProperty("signing.keyPassword",null)
+def storeFileStr = localProperties.getProperty("signing.storeFile",null)
+def storePasswordStr = localProperties.getProperty("signing.storePassword",null)
+
+ext{
+    propertyHaveSigningConfigs = (keyAliasStr != null && keyPasswordStr != null && storeFileStr != null && storePasswordStr != null)
+    propertyStoreFileStr = storeFileStr
+    propertyStorePwdStr = storePasswordStr
+    propertyKeyAliasStr = keyAliasStr
+    propertyKeyPwdStr = keyPasswordStr
+}
