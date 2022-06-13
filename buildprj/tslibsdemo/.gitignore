@@ -1,0 +1,17 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### build ###
+#dist/
+
+### VS Code ###
+.vscode/
+
+### macOS ###
+.DS_Store
+
+### lib ###
+/node_modules/
