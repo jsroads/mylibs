@@ -1,0 +1,1 @@
+ coscmd upload -r D:\Build\mini\wx\res Mini/wx/0.0.23/res
