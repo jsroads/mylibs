@@ -2,8 +2,11 @@
 * Usage:
 * node main.js -size d:\myproject\assets d:\out.txt
 */
+const AssetCleaner = require('./AssetCleaner');
 const AssetBytesSize = require('./AssetBytesSize');
 const AssetWHSize = require('./AssetWHSize');
+const JSSRCSize = require('./JSSRCSize');
+const JSONSize = require('./JSONSize');
 const command = process.argv[2];
 const sourceFile = process.argv[3];
 const destFile = process.argv[4];
@@ -23,11 +26,20 @@ let parseCommand = function (cmd) {
         return;
     }
     switch (cmd) {
+        case '-clean':
+            AssetCleaner.start(sourceFile, destFile);
+            break;
         case '-size':
             AssetBytesSize.start(sourceFile, destFile);
             break;
         case '-side':
             AssetWHSize.start(sourceFile, destFile, compareSize || 0);
+            break;
+        case '-js':
+            JSSRCSize.start(sourceFile, destFile, compareSize || 0);
+            break;
+        case '-json':
+            JSONSize.start(sourceFile, destFile, compareSize || 0);
             break;
         default:
             let strHelp = Version + '\n' +
