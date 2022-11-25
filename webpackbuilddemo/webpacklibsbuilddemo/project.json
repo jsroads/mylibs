@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "version": "2.3.3",
+  "name": "libsbuilddemo",
+  "id": "bbd0e91c-dc26-4081-bc2b-252cef2b31fc",
+  "isNew": false
+}
