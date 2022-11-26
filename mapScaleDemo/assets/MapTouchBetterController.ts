@@ -105,7 +105,6 @@ export class MapTouchBetterController extends Component {
     protected targetPos: Vec3 = new Vec3();//目标移动位置
     private isMoving: boolean = false; // 是否拖动地图flag
     private mapTouchList: any[] = []; // 触摸点列表容器
-    private deltaVec2 = new Vec2(0, 0);
 
     public removeTouchFromContent(event: EventTouch, content: any[]): void {
         let eventToucheIDs: number[] = event['getTouches']().map(v => v.getID());
@@ -227,19 +226,14 @@ export class MapTouchBetterController extends Component {
         this.map.setPosition(targetPos.x, targetPos.y, targetPos.z);
     }
 
-    // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
     private canStartMove(touch: Touch): boolean {
-        let startPos: Vec2 = this.deltaVec2;
-        let nowPos: Vec2 = touch.getLocation();
         // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
-        // console.log("smile----nowPosX:" + JSON.stringify(nowPos.x - startPos.x));
-        // console.log("smile----nowPosY:" + JSON.stringify(nowPos.y - startPos.y));
-        return Math.abs(nowPos.x - startPos.x) > this.moveOffset || Math.abs(nowPos.y - startPos.y) > this.moveOffset;
+        return touch.getDelta().length() > this.moveOffset;
     }
 
     // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
-    private moveDistance(touch: Touch): Vec2 {
-        return v2(touch.getLocation().x - this.deltaVec2.x, touch.getLocation().y - this.deltaVec2.y);
+    private moveDistance(touch: Touch): Vec3 {
+        return v3(touch.getDelta().x, touch.getDelta().y,0);
     }
 
     private addEvent(): void {
@@ -297,12 +291,10 @@ export class MapTouchBetterController extends Component {
                 const touch: Touch = touches[0];
                 if (this.isMoving || this.canStartMove(touch)) {
                     this.isMoving = true;
-                    const distance: Vec2 = this.moveDistance(touch);
-                    let dir: Vec3 = v3(distance.x, distance.y);
-                    this.deltaVec2 = touch.getLocation().clone();
-                    this.dealMove(dir, this.map, this.node);
+                    const distance: Vec3 = this.moveDistance(touch);
+                    this.dealMove(distance, this.map, this.node);
                 } else {
-                    // const distance: Vec2 = this.moveDistance(touch);
+                    //const distance: Vec3 = this.moveDistance(touch);
                     // console.log("smile----this.isMoving:" + JSON.stringify(this.isMoving));
                     // console.log("smile----distance:" + JSON.stringify(distance));
                     console.log("不能移动");
@@ -315,7 +307,6 @@ export class MapTouchBetterController extends Component {
         this.node.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             if (this.locked) return;
             this.handleReleaseLogic();
-            this.deltaVec2 = event.getLocation().clone();
             event.propagationStopped = true;
         }, this);
 

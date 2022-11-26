@@ -24,9 +24,6 @@ import {
  * Note:
  */
 const {ccclass, property} = _decorator;
-const _tempVec3 = new Vec3();
-const EPSILON = 1e-4;
-const TOLERANCE = 1e4;
 
 @ccclass('MapTouchController')
 export class MapTouchController extends Component {
@@ -79,8 +76,6 @@ export class MapTouchController extends Component {
 
     @property(CCBoolean)
     public isStrict: boolean = false; // 默认为非严格模式
-
-    private deltaVec3 = new Vec3(0, 0, 0);//临时记录位置
     protected onLoad(): void {
 
     }
@@ -92,16 +87,11 @@ export class MapTouchController extends Component {
         this.map.setPosition(0, 225);
     }
 
-    // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
+
+
     private canStartMove(touch: Touch): boolean {
-        let startPos: any = this.deltaVec3;
-        let nowPos: any = touch.getLocation();
         // 有些设备单点过于灵敏，单点操作会触发TOUCH_MOVE回调，在这里作误差值判断
-        // console.log("smile----nowPosX:" + JSON.stringify(nowPos.x - startPos.x));
-        // console.log("smile----nowPosY:" + JSON.stringify(nowPos.y - startPos.y));
-        return Math.abs(nowPos.x - startPos.x) > this.moveOffset || Math.abs(nowPos.y - startPos.y) > this.moveOffset;
-        // const delta = touch.getDelta();
-        // return Math.abs(delta.x) > this.moveOffset || Math.abs(delta.y) > this.moveOffset;
+        return touch.getDelta().length() > this.moveOffset;
     }
 
     private addEvent(): void {
@@ -159,9 +149,8 @@ export class MapTouchController extends Component {
                 let touch: Touch = touches[0];
                 if (this.isMoving || this.canStartMove(touch)) {
                     this.isMoving = true;
-                    let dir: Vec3 = v3(touch.getLocation().x - this.deltaVec3.x, touch.getLocation().y - this.deltaVec3.y);
-                    this.deltaVec3 = v3(event.getLocation().x, event.getLocation().y);
-                    this.dealMove(dir, this.map, this.node);
+                    const distance:Vec3 = v3(touch.getDelta().x, touch.getDelta().y,0);
+                    this.dealMove(distance, this.map, this.node);
                 } else {
                     console.log("不能移动")
                 }
@@ -172,7 +161,6 @@ export class MapTouchController extends Component {
         }, this);
         this.node.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             if (this.locked) return;
-            this.deltaVec3 = v3(event.getLocation().x, event.getLocation().y);
             event.propagationStopped = true;
         }, this);
         this.node.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
