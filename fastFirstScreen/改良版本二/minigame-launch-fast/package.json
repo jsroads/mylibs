@@ -1,0 +1,7 @@
+{
+  "name": "minigame-launch-fast",
+  "version": "1.0.1",
+  "description": "小游戏启动优化",
+  "author": "dream93",
+  "main": "main.js"
+}

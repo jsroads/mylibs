@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Cocos Creator | wangengdaluandou</title>
+
+    <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+
+    <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- force full screen on some browser -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+
+    <!-- force screen orientation on some browser -->
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-orientation" content="portrait">
+
+    <!--fix fireball/issues/3568 -->
+    <!--<meta name="browsermode" content="application">-->
+    <meta name="x5-page-mode" content="app">
+
+    <!--<link rel="apple-touch-icon" href=".png" />-->
+    <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+    <link rel="stylesheet" type="text/css" href="style-mobile.25fc5.css"/>
+    <link rel="icon" href="favicon.8de18.ico"/>
+    <script>
+        (function (w, d, s, q, i) {
+            w[q] = w[q] || [];
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+            j.async = true;
+            j.id = "beacon-aplus";
+            j.src = "https://d.alicdn.com/alilog/mlog/aplus/" + i + ".js";
+            f.parentNode.insertBefore(j, f);
+        })(window, document, "script", "aplus_queue", "203467608");
+
+        //集成应用的appKey
+        aplus_queue.push({
+            action: "aplus.setMetaInfo",
+            arguments: ["appKey", "63a00cfb88ccdf4b7ea88faf"]
+        });
+        /************************以下内容为可选配置内容****************************/
+        //sdk提供手动pv发送机制，启用手动pv(即关闭自动pv)，需设置aplus-waiting=MAN;
+        //注意：由于单页面路由改变时不会刷新页面，无法自动发送pv，所以对于单页应用，强烈建议您关闭自动PV, 手动控制PV事件
+        aplus_queue.push({
+            action: "aplus.setMetaInfo",
+            arguments: ["aplus-waiting", "MAN"]
+        });
+        //是否开启调试模式
+        aplus_queue.push({
+            action: "aplus.setMetaInfo",
+            arguments: ["DEBUG", true]
+        });
+        //是否指定用作计算umid的id类型，默认为cnaid，目前支持:
+        //1. 微信和QQ: openid; 字节和百度 anonymousid; 支付宝 alipay_id
+        //2. 微信、QQ、字节、百度平台的 unionid
+        //3. 业务方自己生成的随机id uuid
+        aplus_queue.push({
+            action: "aplus.setMetaInfo",
+            arguments: ["aplus-idtype", "xxxx"] //取值参考见附表1
+        });
+        /******************************************************************/
+    </script>
+</head>
+<body>
+<canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+<div id="splash">
+    <div class="progress-bar stripes">
+        <span style="width: 0%"></span>
+    </div>
+</div>
+
+<script src="src/settings.js" charset="utf-8"></script>
+
+<script src="main.js" charset="utf-8"></script>
+
+<script src="umd.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    (function () {
+        // open web debugger console
+        if (typeof VConsole !== "undefined") {
+            window.vConsole = new VConsole();
+        }
+        const {aplus_queue} = window;
+        aplus_queue.push({
+            action: "aplus.sendPV",
+            arguments: [{
+                is_auto: false
+            }, {
+                param1: 111,
+                param2: "222"
+            }]
+        });
+        var debug = window._CCSettings.debug;
+        var splash = document.getElementById("splash");
+        splash.style.display = "block";
+
+        function loadScript(moduleName, cb) {
+            function scriptLoaded() {
+                document.body.removeChild(domScript);
+                domScript.removeEventListener("load", scriptLoaded, false);
+                cb && cb();
+            };
+            var domScript = document.createElement("script");
+            domScript.async = true;
+            domScript.src = moduleName;
+            domScript.addEventListener("load", scriptLoaded, false);
+            document.body.appendChild(domScript);
+        }
+
+        loadScript(debug ? "cocos2d-js.js" : "cocos2d-js-min.61c19.js", function () {
+            if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+                loadScript(debug ? "physics.js" : "physics-min.js", window.boot);
+            } else {
+                window.boot();
+            }
+        });
+    })();
+</script>
+</body>
+</html>
