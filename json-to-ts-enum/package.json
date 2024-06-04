@@ -1,0 +1,39 @@
+{
+  "name": "json-to-ts-enum",
+  "version": "1.0.1",
+  "description": "Generate a TypeScript enum and Javascript Object from JSON file",
+  "main": "dist/cli.js",
+  "keywords": [
+    "TypeScript",
+    "JSON",
+    "enum",
+    "Generate"
+  ],
+  "scripts": {
+    "dev": "ts-node lib/cli.ts",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "bin": {
+    "json-to-ts-enum": "dist/cli.js"
+  },
+  "author": {
+    "email": "jules@qusito.nl",
+    "name": "Jules Kreutzer | Qusito",
+    "url": "https://qusito.nl"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/ejs": "^3.0.5",
+    "@types/node": "^14.14.2",
+    "@types/yargs": "^15.0.9",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@qusito/json-enum-generator": "^1.0.2",
+    "ejs": "^3.1.5",
+    "xlsx": "^0.18.5",
+    "yargs": "^16.1.0"
+  }
+}

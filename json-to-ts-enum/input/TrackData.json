@@ -1,0 +1,18 @@
+{
+  "LevelFund": {
+    "value": "LevelFund",
+    "desc": "等级基金界面打开"
+  },
+  "SeasonBP": {
+    "value": "SeasonBP",
+    "desc": "赛季BP界面打开"
+  },
+  "SeasonInBP": {
+    "value": "SeasonInBP",
+    "desc": "赛季BP2级界面打开"
+  },
+  "SnakeGift": {
+    "value": "SnakeGift",
+    "desc": "毒蛇礼包3界面打开"
+  }
+}
