@@ -1,24 +1,40 @@
 # mylibs
-常用的一些类库等
+常用的一些类库以及自己写的工具等。
 
 ```shell
-mylibs
+├── ComparedGitPlist
 ├── CountUp
+├── Crydemo
 ├── GitLogParsePlus
 ├── Protobufjs
 ├── README.md
+├── RecordDemo
 ├── ScrollBarExtra
+├── TurntableDemo
 ├── TweenMax
 ├── androiddemo
+├── async.js
+├── audiotiny
 ├── axios
 ├── bson
+├── buildprj
+├── fastFirstScreen
+├── firstBundleFast
+├── js2json2zip
+├── json-to-ts-enum
 ├── lodash
+├── lz4-ts
 ├── mapScaleDemo
 ├── md5&xxtea
+├── minigame
+├── pic-size-tool
 ├── puremvc
-└── underscore
+├── underscore
+├── webpackbuilddemo
+└── wxPlayTest
 
-directory: 13 file: 1
+30 directories, 1 file
+YDC012deMac-mini~/asroads/mylibs(main|✔) %
 
 ```
 
