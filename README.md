@@ -2,12 +2,13 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
+YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 1 -d
+.
 ├── ComparedGitPlist
 ├── CountUp
 ├── Crydemo
 ├── GitLogParsePlus
 ├── Protobufjs
-├── README.md
 ├── RecordDemo
 ├── ScrollBarExtra
 ├── TurntableDemo
@@ -18,6 +19,7 @@
 ├── axios
 ├── bson
 ├── buildprj
+├── debug.js
 ├── fastFirstScreen
 ├── firstBundleFast
 ├── js2json2zip
@@ -33,8 +35,8 @@
 ├── webpackbuilddemo
 └── wxPlayTest
 
-30 directories, 1 file
-YDC012deMac-mini~/asroads/mylibs(main|✔) %
+31 directories
+YDC012deMac-mini~/asroads/mylibs(main|…) %
 
 ```
 
