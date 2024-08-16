@@ -1,0 +1,17 @@
+{
+  "name": "jestdemo",
+  "version": "1.0.1",
+  "description": "CocosCreator的Jest测试项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "ls": "ls -al"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.4"
+  }
+}

@@ -2,7 +2,7 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
-Last login: Fri Aug 16 18:41:32 on ttys003
+Last login: Fri Aug 16 18:49:06 on ttys005
 YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
 .
 ├── ComparedGitPlist
@@ -27,6 +27,23 @@ YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
 │   ├── today_setup. command
 │   ├── windows
 │   └── yesterday_setup. command
+├── JestDemo
+│   ├── CocosCreator接入Jest
+│   ├── CocosCreator接入Jest.md
+│   ├── README.md
+│   ├── assets
+│   ├── creator.d.ts
+│   ├── jest.config.js
+│   ├── jsconfig.json
+│   ├── local
+│   ├── package.json
+│   ├── packages
+│   ├── project.json
+│   ├── settings
+│   ├── template-banner.png
+│   ├── template.json
+│   ├── test
+│   └── tsconfig.json
 ├── Protobufjs
 │   ├── Cocos Creator 2.x
 │   └── Cocos Creator 3.0
@@ -175,8 +192,7 @@ YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
     ├── 2023版本
     └── 2024版本
 
-93 directories, 77 files
+100 directories, 87 files
 YDC012deMac-mini~/asroads/mylibs(main|…) %
-
 ```
 
