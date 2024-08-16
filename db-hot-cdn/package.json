@@ -1,0 +1,41 @@
+{
+  "name": "db-cdn-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc && cp src/db.json dist/src && pkg ."
+  },
+  "bin": "dist/src/main.js",
+  "pkg": {
+    "assets": [
+      "db.json",
+      "node_modules/axios/**/*"
+    ],
+    "scripts": [
+      "dist/src/**/*.js"
+    ],
+    "targets": [
+      "node16-linux-x64",
+      "node16-macos-arm64",
+      "node16-win-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": [],
+  "author": "jsroads",
+  "license": "ISC",
+  "dependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "axios": "^1.7.4",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

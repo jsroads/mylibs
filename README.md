@@ -2,7 +2,8 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
-YDC012deMac-mini~/asroads/mylibs(main↑3|●1) % tree -L 2
+Last login: Fri Aug 16 18:41:32 on ttys003
+YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
 .
 ├── ComparedGitPlist
 │   ├── copy-files.mjs
@@ -96,6 +97,11 @@ YDC012deMac-mini~/asroads/mylibs(main↑3|●1) % tree -L 2
 │   ├── libsbuilddemo
 │   ├── ts-demo
 │   └── tslibsdemo
+├── db-hot-cdn
+│   ├── input
+│   ├── package.json
+│   ├── src
+│   └── tsconfig.json
 ├── debug.js
 │   ├── 无依赖纯净版
 │   ├── 无依赖整合版本
@@ -169,7 +175,8 @@ YDC012deMac-mini~/asroads/mylibs(main↑3|●1) % tree -L 2
     ├── 2023版本
     └── 2024版本
 
-90 directories, 75 files
+93 directories, 77 files
+YDC012deMac-mini~/asroads/mylibs(main|…) %
 
 ```
 

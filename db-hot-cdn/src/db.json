@@ -1,0 +1,23 @@
+{
+  "remotePublishURL": {
+    "wx": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/wx/publish/config.json",
+    "dy": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/dy/publish/config.json",
+    "qq": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/qq/publish/config.json",
+    "vivo": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/vivo/publish/config.json",
+    "oppo": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/oppo/publish/config.json",
+    "hw": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/hw/publish/config.json",
+    "android": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/android/publish/config.json",
+    "ios": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/ios/publish/config.json"
+
+  },
+  "remoteTestURL": {
+    "wx": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/wx/test/config.json",
+    "dy": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/dy/test/config.json",
+    "qq": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/qq/test/config.json",
+    "vivo": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/vivo/test/config.json",
+    "oppo": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/oppo/test/config.json",
+    "hw": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/hw/test/config.json",
+    "android": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/android/test/config.json",
+    "ios": "https://xxxx.xxxxx.com/tcs/mini/cdn_update/ios/test/config.json"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  /* 根选项 */
+  "include": [
+    "libs/*.d.ts",
+    "src/*.ts",
+    "src/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.ejs",
+    "src/**/*.js",
+  ], // 指定被编译文件所在的目录
+  "exclude": ["node_modules"], // 指定不需要被编译的目录
+  "compilerOptions": {
+    "target": "ES6", // 目标语言的版本
+    "module": "commonjs", // 生成代码的模板标准
+    "allowJs": true, // 允许编译器编译JS，JSX文件
+    "checkJs": true, // 允许在JS文件中报错，通常与allowJS一起使用
+    "esModuleInterop": true, // 允许export=导出，由import from 导入
+    "forceConsistentCasingInFileNames": true, //是否区分文件系统大小写规则
+    "strict": true, //是否启动所有严格检查的总开关，默认：false，启动后将开启所有的严格检查选项。
+    "rootDir": "./", // 指定输出文件目录(用于输出)，用于控制输出目录结构
+    "outDir": "dist", // 指定输出目录
+    "alwaysStrict": true, // 在代码中注入'use strict'
+    "noUnusedLocals": true //是否检查未使用的局部变量
+  }
+}
