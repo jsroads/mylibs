@@ -2,8 +2,8 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
-Last login: Fri Aug 16 18:49:06 on ttys005
-YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
+Last login: Fri Aug 16 19:08:10 on ttys006
+YDC012deMac-mini~/asroads/mylibs(main↑2|✔) % tree -L 2
 .
 ├── ComparedGitPlist
 │   ├── copy-files.mjs
@@ -35,13 +35,9 @@ YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
 │   ├── creator.d.ts
 │   ├── jest.config.js
 │   ├── jsconfig.json
-│   ├── local
 │   ├── package.json
-│   ├── packages
 │   ├── project.json
 │   ├── settings
-│   ├── template-banner.png
-│   ├── template.json
 │   ├── test
 │   └── tsconfig.json
 ├── Protobufjs
@@ -192,7 +188,7 @@ YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
     ├── 2023版本
     └── 2024版本
 
-100 directories, 87 files
-YDC012deMac-mini~/asroads/mylibs(main|…) %
+98 directories, 85 files
+YDC012deMac-mini~/asroads/mylibs(main↑2|✔) %
 ```
 
