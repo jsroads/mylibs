@@ -2,9 +2,14 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
-Last login: Fri Aug 16 19:08:10 on ttys006
-YDC012deMac-mini~/asroads/mylibs(main↑2|✔) % tree -L 2
+YDC012deMac-mini~/asroads/mylibs(main|✚2…) % tree -L2
 .
+├── Cocos Creator2.4版本文字模糊终极解决方案
+│   ├── Engine
+│   ├── ReadMe
+│   ├── ReadMe.md
+│   ├── ttf修改文件.zip
+│   └── ttf修改文件包含2.4.13.zip
 ├── ComparedGitPlist
 │   ├── copy-files.mjs
 │   ├── dist
@@ -29,7 +34,6 @@ YDC012deMac-mini~/asroads/mylibs(main↑2|✔) % tree -L 2
 │   └── yesterday_setup. command
 ├── JestDemo
 │   ├── CocosCreator接入Jest
-│   ├── CocosCreator接入Jest.md
 │   ├── README.md
 │   ├── assets
 │   ├── creator.d.ts
@@ -188,7 +192,7 @@ YDC012deMac-mini~/asroads/mylibs(main↑2|✔) % tree -L 2
     ├── 2023版本
     └── 2024版本
 
-98 directories, 85 files
-YDC012deMac-mini~/asroads/mylibs(main↑2|✔) %
+101 directories, 87 files
+YDC012deMac-mini~/asroads/mylibs(main|✚2…) %
 ```
 
