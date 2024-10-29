@@ -2,7 +2,7 @@
 常用的一些类库以及自己写的工具等。
 
 ```shell
-YDC012deMac-mini~/asroads/mylibs(main|✚2…) % tree -L2
+YDC012deMac-mini~/asroads/mylibs(main|…) % tree -L 2
 .
 ├── Cocos Creator2.4版本文字模糊终极解决方案
 │   ├── Engine
@@ -145,6 +145,8 @@ YDC012deMac-mini~/asroads/mylibs(main|✚2…) % tree -L2
 │   ├── package-lock.json
 │   ├── package.json
 │   └── tsconfig.json
+├── jszip
+│   └── 3.10.1
 ├── lodash
 │   ├── lodash.d.ts
 │   └── lodash.js
@@ -192,7 +194,7 @@ YDC012deMac-mini~/asroads/mylibs(main|✚2…) % tree -L2
     ├── 2023版本
     └── 2024版本
 
-101 directories, 87 files
-YDC012deMac-mini~/asroads/mylibs(main|✚2…) %
+103 directories, 87 files
+YDC012deMac-mini~/asroads/mylibs(main|…) %
 ```
 
